@@ -35,10 +35,19 @@ public class DatabaseConnection {
             System.out.println("==================================================");
         }
     }
+    public void upgradeSalaryByPercentToAllEmployees(double percent) throws SQLException {
+        // ? -> wskazuje że wartość będzie przekazana
+        String sql = "UPDATE employee SET salary_net = salary_net * (1 + ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setDouble(1, percent);
+        preparedStatement.executeUpdate();
+    }
 
     public static void main(String[] args) throws SQLException {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         databaseConnection.connectToDatabase();
+        databaseConnection.getAllEmployees();
+        databaseConnection.upgradeSalaryByPercentToAllEmployees(0.2);
         databaseConnection.getAllEmployees();
     }
 }
